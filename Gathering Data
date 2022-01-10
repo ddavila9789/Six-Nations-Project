@@ -1,0 +1,183 @@
+#Import libraries
+import pandas as pd
+import numpy as np
+import re
+import requests
+from bs4 import BeautifulSoup
+
+
+
+
+
+
+#Creating list of all URLs used (contains all match data from Six Nations)
+url_list = [
+            'https://www.itsrugby.co.uk/calendar-nations6-2020.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2019.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2018.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2017.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2016.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2015.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2014.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2013.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2012.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2011.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2010.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2009.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2008.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2007.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2006.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2005.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2004.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2003.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2002.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2001.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-2000.html',
+            'https://www.itsrugby.co.uk/calendar-nations6-1999.html'
+            ]
+temp = []
+
+for i in url_list:
+
+  #GET request for html text
+  page = requests.get(i).text
+  
+  #parsing html content
+  soup = BeautifulSoup(page, 'lxml')
+
+  #Getting specific table data
+  html_table = str(soup.find("div", class_='col-md-10 col-sm-12'))
+
+  #adding to temporary dataframe
+  temp.append(html_table)
+
+tables_html = ''.join(temp)
+
+
+
+
+
+
+
+df = pd.read_html(tables_html)
+df = pd.concat(df)
+
+#Cleaning dataframe
+fixtures = df.drop(columns=[3,4,5,6,7,8,9,10,11])
+
+fixtures = fixtures.dropna()
+
+
+#Creating new column names
+new_cols = ['Home', 'Result', 'Away']
+new_names_map = {fixtures.columns[i]:new_cols[i] for i in range(len(new_cols))}
+
+fixtures.rename(new_names_map, axis=1, inplace=True)
+
+#Splitting the Result coluimn between home and away scores
+fixtures[['For','Against']] = fixtures['Result'].str.split('-', expand=True)
+del fixtures['Result']
+
+
+#Deleting all rows with "None" (helpful as it also gets rid of the dates and day/round number)
+fixtures = fixtures.replace(to_replace='None', value=np.nan).dropna()
+
+#Fixing index numbering
+fixtures.reset_index(inplace = True, drop = True)
+
+fixtures.For = fixtures.For.astype(int)
+fixtures.Against = fixtures.Against.astype(int)
+
+#Creating Home Win column
+fixtures['Difference'] = fixtures['For'] - fixtures['Against']
+
+#Saving dataframe to excel sheet to look at data more in-depth
+fixtures.to_excel()
+
+
+
+
+
+
+
+
+
+#Added more columns of data that include the betting odds for each match 
+#ranking of each team at the time of each match as well as the rank points accumulated
+#also if the home or away team had won during the last outing
+
+oddfixtures = pd.read_csv("fixtures.csv")
+
+#The new data gathered had only reached as far back as 2009 cutting our dataset
+oddfixtures = oddfixtures.dropna()
+
+#Changing the data types of the new entries
+oddfixtures.Home_odds = oddfixtures.Home_odds.astype(int)
+oddfixtures.Tie_odds = oddfixtures.Tie_odds.astype(int)
+oddfixtures.Away_odds = oddfixtures.Away_odds.astype(int)
+oddfixtures.Home_win_last = oddfixtures.Home_win_last.astype(int)
+oddfixtures.Away_win_last = oddfixtures.Away_win_last.astype(int)
+
+oddfixtures
+
+
+
+
+
+
+#Using label encoder to give each team their own number associated to them
+#This number is able to be used whether they are the Home team or Away
+encoding = LabelEncoder()
+encoding.fit(oddfixtures['Home'].values)
+
+num_home = encoding.transform(oddfixtures['Home'].values)
+num_away = encoding.transform(oddfixtures['Away'].values)
+
+home_teams = encoding.transform(oddfixtures["Home"].values)
+away_teams = encoding.transform(oddfixtures["Away"].values)
+
+x_teams = np.vstack([home_teams,away_teams]).T
+x_teams[:6], x_teams.shape
+
+
+
+
+
+
+#Renaming the newly added columns
+oddfixtures['Home_team_number'] = home_teams
+oddfixtures['Away_team_number'] = away_teams
+
+oddfixtures
+
+
+
+
+
+
+#Creating test dataframe
+#The dataframe shown only contains the first 3 matches as those were the only matches
+#with current betting odds and World Rugby rankings/points
+
+
+Home_22 = ['Ireland','Scotland','France']
+Away_22 = ['Wales','England','Italy']
+P_Home_score = [0,0,0]
+P_Away_score = [0,0,0]
+N_Home_odds = [-667,194,-25000]
+N_Tie_odds = [2700,2118,4656]
+N_Away_odds = [413,-250,1711]
+N_Home_rank = [4,7,5]
+N_Away_rank = [8,3,14]
+N_Home_points = [86.53,83.05,85.53]
+N_Away_points = [81.56,87.83,70.51]
+H_win_last = [1,1,1]
+A_win_last = [0,0,0]
+Home_num = [2,4,1]
+Away_num = [5,0,3]
+
+new_fixtures = list(zip(Home_22,Away_22,P_Home_score,P_Away_score,N_Home_odds,N_Tie_odds,N_Away_odds,N_Home_rank,N_Away_rank,N_Home_points,N_Away_points,H_win_last,A_win_last,Home_num,Away_num))
+
+p_fixtures = pd.DataFrame(new_fixtures, columns = ['Home','Away','For','Against','Home_odds','Tie_odds','Away_odds','Home_rank','Away_rank','Home_points','Away_points','Home_win_last','Away_win_last','Home_team_number','Away_team_number'])
+
+p_fixtures
