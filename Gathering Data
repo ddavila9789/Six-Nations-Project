@@ -101,7 +101,6 @@ fixtures.to_excel()
 
 
 
-
 #Added more columns of data that include the betting odds for each match 
 #ranking of each team at the time of each match as well as the rank points accumulated
 #also if the home or away team had won during the last outing
