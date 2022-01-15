@@ -1,1 +1,178 @@
+#Importing libraries needed
 
+import sklearn
+import tensorflow as tf
+import xgboost
+from xgboost import XGBRegressor
+import pickle
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import LabelEncoder
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.tree import DecisionTreeRegressor
+from numpy import loadtxt
+from keras.models import Sequential, Model
+from keras.layers import Dense, Input
+from sklearn.metrics import mean_squared_error
+
+
+
+
+
+#Creating dataframes for input and output
+X = pd.DataFrame(oddfixtures, columns=['Home_odds','Tie_odds','Away_odds','Home_rank','Away_rank','Home_points','Away_points','Home_win_last','Away_win_last','Home_team_number','Away_team_number'])
+Y = pd.DataFrame(oddfixtures, columns=['For','Against'])
+
+
+#Splitting the data into train/test data
+X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X,Y,test_size=0.1)
+
+#Placeholder
+best_for = 0
+
+#Loop that, for a certain number of times, creates, trains, and tests the Linear Regression model
+#The accuracy score will replace 'best_for' and continue to save the model using pickle
+#Everytime the 'best_for' score is beaten the the better model is saved
+
+for t in range(x amount of times):
+    X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X,Y,test_size=0.1)
+
+    linear = LinearRegression()
+
+    linear.fit(X_train,Y_train)
+
+    acc = linear.score(X_test,Y_test)
+
+    if acc > best_for:
+       best_for = acc
+       with open('l_model.pickle', 'wb') as f:
+         pickle.dump(linear, f)
+print(best_for)
+
+
+#Loading in the saved model
+
+pickle_in = open('l_model.pickle', 'rb')
+
+l_model = pickle.load(pickle_in)
+
+l_result = l_model.predict(n_x)
+print(l_result)
+
+
+
+
+
+#Process is repeated for the KNeighbors Regression model
+best_for = 0
+
+for j in range(100000):
+    
+    X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X,Y,test_size=0.1)
+
+    k_model = KNeighborsRegressor()
+
+    k_model.fit(X_train,Y_train)
+    
+    acc = k_model.score(X_test,Y_test)
+
+    if acc > best_for:
+       best_for = acc
+       with open('k__model.pickle', 'wb') as f:
+         pickle.dump(k_model, f)
+print(best_for)
+
+
+
+
+#Loading model to predict data
+k_pickle_in = open('k__model.pickle', 'rb')
+
+k_model = pickle.load(k_pickle_in)
+
+k_result = k_model.predict(n_x)
+print(k_result)
+
+
+
+
+
+#Once again repeating the same process for the Decision Tree Regressor
+best_for = 0
+
+for l in range(100000):
+    
+    X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X,Y,test_size=0.1)
+
+    t_model = DecisionTreeRegressor()
+    
+    t_model.fit(X_train,Y_train)
+    
+    acc = t_model.score(X_test,Y_test)
+
+    if acc > best_for:
+       best_for = acc
+       with open('t_model.pickle', 'wb') as f:
+         pickle.dump(t_model, f)
+print(best_for)
+
+
+
+#Loading model to predict
+t_pickle_in = open('t_model.pickle', 'rb')
+
+t_model = pickle.load(t_pickle_in)
+
+t_result = t_model.predict(n_x)
+print(t_result)
+
+
+
+
+
+
+
+
+#Preprocessing the data to fit the requirements of the sequential model
+seq_X = oddfixtures[['Home_rank','Away_rank','Home_points','Away_points','Home_team_number','Away_team_number']]
+seq_Y = oddfixtures[['For', 'Against']]
+
+norm = (seq_X - seq_X.mean()/seq_X.std())
+
+n_col = norm.shape[1]
+
+seq_pred = pd.DataFrame(p_fixtures, columns = ['Home_rank','Away_rank','Home_points','Away_points','Home_team_number','Away_team_number'])
+
+seq_pred = np.asarray(seq_pred)
+
+
+
+#Creating sequential regression model
+def regression():
+  s_model = Sequential([
+      tf.keras.layers.Dense(300, activation='relu', input_shape=(n_col,)),
+      tf.keras.layers.Dense(125, activation='relu'),
+      tf.keras.layers.Dense(2, activation='linear')
+      ])
+
+  s_model.compile(optimizer="adam", loss='mean_squared_error', metrics='mae')
+  return s_model
+  
+  
+#Splitting the data 
+Xtrain, Xtest, Ytrain, Ytest = sklearn.model_selection.train_test_split(new_norm, s_Y, test_size=0.1, random_state=1)
+
+s_model = regression()
+
+s_model.fit(new_norm, s_Y,validation_split=0.1, epochs=200, verbose=0)
+
+score = s_model.evaluate(Xtest, Ytest, verbose=0)
+
+with open('s_model.pickle','wb') as f:
+  pickle.dump(s_model, f)
+
+score = s_model.evaluate(Xtest, Ytest, verbose=0)
+
+print(score)
+
+pred = model.predict(new_new)
+print(pred)
