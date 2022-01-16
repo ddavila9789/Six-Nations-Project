@@ -13,10 +13,19 @@ Key Questions:
 
 Data:
   
-  Collected data from "LiveSport.com"
+  Collected data from LiveSport.com, World Rugby, and Oddsportal.com
   
   195 samples (after cleaning)
   
   17 variables (10 continuous, 3 binary, 4 categorical)
   
 
+
+
+
+
+Sources:
+
+https://www.livesport.com/rugby-union/europe/six-nations/archive/
+https://www.oddsportal.com/rugby-union/europe/six-nations/
+https://www.world.rugby/tournaments/rankings/mru
