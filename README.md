@@ -20,8 +20,9 @@ Data:
   17 variables (10 continuous, 3 binary, 4 categorical)
   
 
+Final Spreadsheet:
 
-
+https://docs.google.com/spreadsheets/d/1TzN3B6JJv88XWX6jflrLD2MVPj7vnUHaEAKnUi0UCZE/edit?usp=sharing
 
 
 Sources:
