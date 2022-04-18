@@ -1,4 +1,5 @@
 #Importing libraries needed
+#Sklearn versions 0.22.1 needed for 'KRegressor'
 
 import sklearn
 import tensorflow as tf
