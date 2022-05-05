@@ -23,11 +23,11 @@ Data:
   
 Data Analysis (Charts):
 
-(https://user-images.githubusercontent.com/16343592/166872806-39b84619-e088-483e-9eec-7d9e0d2869f9.png)
-(https://user-images.githubusercontent.com/16343592/166872948-340e1d93-0f52-4fb1-bb75-e1879999fad8.png)
-(https://user-images.githubusercontent.com/16343592/166873028-584b1e9c-7c18-4bb6-8247-81bb9e2cd2ce.png)
-(https://user-images.githubusercontent.com/16343592/166873133-15caf9d1-a1f9-4b89-99b9-52da857364f3.png)
-(https://user-images.githubusercontent.com/16343592/166873175-8a779874-eadd-4a9a-9f71-392748f71f40.png)
+https://user-images.githubusercontent.com/16343592/166872806-39b84619-e088-483e-9eec-7d9e0d2869f9.png
+https://user-images.githubusercontent.com/16343592/166872948-340e1d93-0f52-4fb1-bb75-e1879999fad8.png
+https://user-images.githubusercontent.com/16343592/166873028-584b1e9c-7c18-4bb6-8247-81bb9e2cd2ce.png
+https://user-images.githubusercontent.com/16343592/166873133-15caf9d1-a1f9-4b89-99b9-52da857364f3.png
+https://user-images.githubusercontent.com/16343592/166873175-8a779874-eadd-4a9a-9f71-392748f71f40.png
 
 
 Final Spreadsheet:
