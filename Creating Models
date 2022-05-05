@@ -177,3 +177,4 @@ print(score)
 
 pred = model.predict(new_new)
 print(pred)
+
