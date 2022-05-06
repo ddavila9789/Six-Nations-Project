@@ -23,10 +23,10 @@ Data:
   
 Data Analysis (Charts):
 
-![image](https://user-images.githubusercontent.com/16343592/166873714-d00f823d-b4b9-4afe-af8c-5c21c768d1e6.png)
-![image](https://user-images.githubusercontent.com/16343592/166873693-a4c11112-74a1-4338-af61-3c9e63ffb1ec.png)
-![image](https://user-images.githubusercontent.com/16343592/166873667-c0d918b5-64cc-4d14-8eb8-bd284cf264af.png)
-![image](https://user-images.githubusercontent.com/16343592/166873618-842f7210-6a70-469b-ab01-6d0ba7aa76ea.png)
+![image](https://user-images.githubusercontent.com/16343592/167063011-4c297d62-fa65-4777-9450-4d0dfc119237.png)
+![image](https://user-images.githubusercontent.com/16343592/167063033-7ed5a74b-f79d-41f9-8c85-7c8be2771a9f.png)
+![image](https://user-images.githubusercontent.com/16343592/167063054-0e711d97-7bdc-4c76-926b-ee723e58f1dd.png)
+![image](https://user-images.githubusercontent.com/16343592/167063075-d0b17b38-dd74-4883-9d50-404623c4f417.png)
 ![image](https://user-images.githubusercontent.com/16343592/166873524-75bcfc3a-edd2-4250-ad0f-2e88ed768277.png)
 
 
